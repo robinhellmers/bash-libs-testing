@@ -27,6 +27,8 @@ library_sourcing()
     readonly LIB_PATH="$THIS_SCRIPT_PATH/lib"
     export LIB_PATH
 
+    readonly SRC_PATH="$THIS_SCRIPT_PATH/src"
+
     ### Source libraries ###
     source "$LIB_PATH/lib_core.bash"
 }
@@ -48,7 +50,8 @@ main()
 {
     local this_file="$(find_path 'this_file' "${#BASH_SOURCE[@]}" "${BASH_SOURCE[@]}")"
     echo -e "\nthis_file: $this_file\n"
-    :
+
+    bash "$SRC_PATH/handle_input.sh"
 }
 
 ###################
