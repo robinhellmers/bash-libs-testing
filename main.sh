@@ -48,6 +48,10 @@ library_sourcing
 
 main()
 {
+    echo
+    echo "==================="
+    echo "===== main.sh ====="
+    echo "==================="
     local this_file="$(find_path 'this_file' "${#BASH_SOURCE[@]}" "${BASH_SOURCE[@]}")"
     echo -e "\nthis_file: $this_file\n"
 
