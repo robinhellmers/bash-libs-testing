@@ -4,3 +4,6 @@
 [submodule "lib/lib_sources/bash-lib-handle-input"]
 	path = lib/lib_sources/bash-lib-handle-input
 	url = git@github.com:robinhellmers/bash-lib-handle-input.git
+[submodule "lib/lib_sources/bash-lib-arrays"]
+	path = lib/lib_sources/bash-lib-arrays
+	url = git@github.com:robinhellmers/bash-lib-arrays.git
