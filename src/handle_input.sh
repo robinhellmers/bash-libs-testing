@@ -74,8 +74,14 @@ myfunc()
     fi
 }
 
+register_help_text 'myfunc' \
+'myfunc [arg1]
+
+<description>'
+
 register_function_flags 'myfunc' \
-                        '-e' '--echo' 'true'
+                        '-e' '--echo' 'true' \
+                        'Echo string given after flag.'
 
 _handle_args_myfunc()
 {
@@ -101,9 +107,16 @@ mysecondfunc()
     fi
 }
 
+register_help_text 'mysecondfunc' \
+'mysecondfunc [arg1]
+
+<description>'
+
 register_function_flags 'mysecondfunc' \
                         ''   '--echo' 'true' \
-                        '-v' ''     'false'
+                        'Echo string given after flag.' \
+                        '-v' ''     'false' \
+                        'Verbose output. '
 
 _handle_args_mysecondfunc()
 {
