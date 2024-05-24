@@ -56,6 +56,9 @@ main()
     echo -e "\nthis_file: $this_file\n"
 
     bash "$SRC_PATH/handle_input.sh"
+
+    echo
+    bash "$SRC_PATH/arrays.sh"
 }
 
 ###################
