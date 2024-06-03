@@ -10,3 +10,7 @@
 [submodule "lib/lib_sources/bash-lib-dynamic-variables"]
 	path = lib/lib_sources/bash-lib-dynamic-variables
 	url = git@github.com:robinhellmers/bash-lib-dynamic-variables.git
+[submodule "lib/lib_sources/bash-lib-files"]
+	path = lib/lib_sources/bash-lib-files
+	url = git@github.com:robinhellmers/bash-lib-files.git
+	branch = main
