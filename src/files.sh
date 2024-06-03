@@ -65,24 +65,39 @@ main()
 
 test_is_windows_path()
 {
-    local windows_path
-    windows_path='C:\Users'
+    local path
 
-    echo -e "\nLets check a valid Windows path: '$windows_path'"
-    if is_windows_path "$windows_path"
+    echo -e "\n===== Test: is_windows_path() ====="
+
+    linux_path='C:\'
+    _test_is_windows_path "$linux_path" 'true'
+    linux_path='/home/'
+    _test_is_windows_path "$linux_path" 'false'
+    linux_path='/abc/'
+    _test_is_windows_path "$linux_path" 'false'
+}
+
+_test_is_windows_path()
+{
+    local path="$1"
+    local expected_result="$2"
+
+    local result
+    echo -e "\nLets check if a valid Windows path: '$path'"
+    if is_windows_path "$path"
     then
-        echo "    is_windows_path(): Is a Windows path."
+        echo_highlight "    is_windows_path(): Is a Linux path."
+        result='true'
     else
-        echo "    is_windows_path(): Is NOT a Windows path."
+        echo_highlight "    is_windows_path(): Is NOT a Linux path."
+        result='false'
     fi
 
-    windows_path='/home/'
-    echo -e "\nLets check an INVALID Windows path: '$windows_path'"
-    if is_windows_path "$windows_path"
+    if [[ "$result" == "$expected_result" ]]
     then
-        echo "    is_windows_path(): Is a Windows path."
+        echo_success "Expected result."
     else
-        echo "    is_windows_path(): Is NOT a Windows path."
+        echo_error "Unexpected result."
     fi
 }
 
