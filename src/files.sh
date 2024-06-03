@@ -103,21 +103,23 @@ _test_is_windows_path()
 
 test_is_linux_path()
 {
-    local linux_path
+    local path
 
-    linux_path='C:\'
-    _test_is_linux_path "$linux_path" 'strict' 'false'
-    linux_path='/home/'
-    _test_is_linux_path "$linux_path" 'strict' 'true'
-    linux_path='/abc/'
-    _test_is_linux_path "$linux_path" 'strict' 'false'
+    echo -e "\n===== Test: is_linux_path() ====="
 
-    linux_path='C:\'
-    _test_is_linux_path "$linux_path" 'loose' 'false'
-    linux_path='/home/'
-    _test_is_linux_path "$linux_path" 'loose' 'true'
-    linux_path='/abc/'
-    _test_is_linux_path "$linux_path" 'loose' 'true'
+    path='C:\'
+    _test_is_linux_path "$path" 'strict' 'false'
+    path='/home/'
+    _test_is_linux_path "$path" 'strict' 'true'
+    path='/abc/'
+    _test_is_linux_path "$path" 'strict' 'false'
+
+    path='C:\'
+    _test_is_linux_path "$path" 'loose' 'false'
+    path='/home/'
+    _test_is_linux_path "$path" 'loose' 'true'
+    path='/abc/'
+    _test_is_linux_path "$path" 'loose' 'true'
    
 }
 
