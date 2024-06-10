@@ -108,35 +108,47 @@ test_is_linux_path()
     echo -e "\n===== Test: is_linux_path() ====="
 
     path='C:\'
-    _test_is_linux_path "$path" 'strict' 'false'
+    _test_is_linux_path "$path" 'false'
     path='/home/'
-    _test_is_linux_path "$path" 'strict' 'true'
+    _test_is_linux_path "$path" 'true'
     path='/abc/'
-    _test_is_linux_path "$path" 'strict' 'false'
+    _test_is_linux_path "$path" 'true'
 
     path='C:\'
-    _test_is_linux_path "$path" 'loose' 'false'
+    _test_is_linux_path "$path" 'false' 'exists'
     path='/home/'
-    _test_is_linux_path "$path" 'loose' 'true'
+    _test_is_linux_path "$path" 'true' 'exists'
     path='/abc/'
-    _test_is_linux_path "$path" 'loose' 'true'
+    _test_is_linux_path "$path" 'false' 'exists'
    
 }
 
 _test_is_linux_path()
 {
     local linux_path="$1"
-    local strictness="$2"
-    local expected_result="$3"
+    local expected_result="$2"
+    local extra_command="$3"
 
-    local result
-    echo -e "\nLets check if a valid Linux path using '$strictness' strictness: '$linux_path'"
-    if is_linux_path "$linux_path" --strictness "$strictness"
+    local result='true'
+
+    echo -e "\nLets check if a valid Linux directory path: '$linux_path'"
+    if is_linux_path "$linux_path" --directory
     then
-        echo_highlight "    is_linux_path(): Is a Linux path."
-        result='true'
+        echo_highlight "    is_linux_path(): Is a Linux directory."
+
+        if [[ "$extra_command" == 'exists' ]]
+        then
+            echo -e "\nLets check if the Linux directory also exists: '$linux_path'"
+            if is_linux_path "$linux_path" --directory --exists
+            then
+                echo_highlight "    is_linux_path(): The Linux directory exists."
+            else
+                echo_highlight "    is_linux_path(): The Linux directory does NOT exist."
+                result='false'
+            fi
+        fi
     else
-        echo_highlight "    is_linux_path(): Is NOT a Linux path."
+        echo_highlight "    is_linux_path(): Is NOT a Linux directory."
         result='false'
     fi
 
