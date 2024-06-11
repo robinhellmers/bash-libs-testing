@@ -52,10 +52,12 @@ main()
     local this_script_path
     this_script_path="$(find_path 'this' "${#BASH_SOURCE[@]}" \
                                          "${BASH_SOURCE[@]}")"
-    
+
     test_is_windows_path
 
     test_is_linux_path
+
+    test_generate_unique_filename
 }
 
 ################
@@ -120,7 +122,7 @@ test_is_linux_path()
     _test_is_linux_path "$path" 'true' 'exists'
     path='/abc/'
     _test_is_linux_path "$path" 'false' 'exists'
-   
+
 }
 
 _test_is_linux_path()
@@ -157,6 +159,81 @@ _test_is_linux_path()
         echo_success "Expected result."
     else
         echo_error "Unexpected result."
+    fi
+}
+
+test_generate_unique_filename()
+{
+    echo -e "\n===== Test: generate_unique_filename() ====="
+
+    local tmp_dir
+    local filename
+    local file
+    local max_num_backups
+    local suffix
+
+    max_num_backups=6
+    filename='myfile'
+    suffix='.exe-'
+
+    tmp_dir="$(mktemp --directory)"
+    file="$tmp_dir/$filename"
+
+    touch "${file}${suffix}3"
+    touch "${file}${suffix}4"
+
+    local return_code_success=0
+    local return_code_max_backups=1
+    local expected_generated_filename
+
+    expected_generated_filename="${file}${suffix}1"
+    _test_generate_unique_filename "$return_code_success" "$expected_generated_filename"
+
+    expected_generated_filename="${file}${suffix}2"
+    _test_generate_unique_filename "$return_code_success" "$expected_generated_filename"
+
+    expected_generated_filename="${file}${suffix}5"
+    _test_generate_unique_filename "$return_code_success" "$expected_generated_filename"
+
+    expected_generated_filename="${file}${suffix}6"
+    _test_generate_unique_filename "$return_code_success" "$expected_generated_filename"
+
+    _test_generate_unique_filename "$return_code_max_backups"
+}
+
+_test_generate_unique_filename()
+{
+    local expected_return_code="$1"
+    local expected_generated_filename="$2"
+
+    local generated_filename
+    echo_highlight "Trying to generate unique filename..."
+    generate_unique_filename -m "$max_num_backups" "$file" "$suffix"
+    case "$return_code" in
+        0)
+            echo "Generated filename: '$generated_filename'"
+            touch "$generated_filename"
+            ;;
+        1)
+            ;;
+        *)
+            unhandled_return_code
+            ;;
+    esac
+
+    if (( return_code == expected_return_code ))
+    then
+        if [[ "$generated_filename" == "$expected_generated_filename" ]]
+        then
+            echo_success "Expected result."
+            echo
+        else
+            echo_error "Unexpected result."
+            echo
+        fi
+    else
+        echo_error "Unexpected result."
+        echo
     fi
 }
 
